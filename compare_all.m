@@ -63,7 +63,7 @@ ylim([0.9, 1]);
 set(gca,'fontsize',25)
 grid on;
 filename = sprintf('plots/final/cos_all_n_%d_p_%d_r_%d_k_%d_nrep_%d.pdf', n, p, r, k, num_rep);
-saveTightFigure(gcf, filename);
+% saveTightFigure(gcf, filename);
 close(gcf);
 
 % lambda

@@ -75,10 +75,10 @@ legend('location','southeast');
 grid on;
 ax1 = gca;
 axes(ax1);
-magnifyOnFigure;
+% magnifyOnFigure;
 
 filename = sprintf('plots/final/magnify_uniX_cos_all_n_%d_p_%d_r_%d_k_%d_nrep_%d.pdf', n, p, r, k, num_rep);
-saveTightFigure(gcf, filename);
+% saveTightFigure(gcf, filename);
 close(gcf);
 
 % lambda
@@ -143,7 +143,7 @@ set(gca,'fontsize',20)
 legend('location','southeast');
 grid on;
 filename = sprintf('plots/single_uniX_cos_gaus_gamma_%0.1f_xi_%0.2f_nrep_%d_n_%d_k_%d.pdf', gamma, xi,num_rep,n, k);
-saveTightFigure(gcf, filename);
+% saveTightFigure(gcf, filename);
 fprintf(['Saved Results to ' filename '\n']);
 close(gcf)
 %%% plot lambda
@@ -159,7 +159,7 @@ set(gca,'fontsize',20)
 legend('location','southeast');
 grid on;
 filename = sprintf('plots/single_uniX_lambda_gaus_gamma_%0.1f_xi_%0.2f_nrep_%d_n_%d_k_%d.pdf', gamma, xi,num_rep,n, k);
-saveTightFigure(gcf, filename);
+% saveTightFigure(gcf, filename);
 fprintf(['Saved Results to ' filename '\n']);
 close(gcf)
 
@@ -237,7 +237,7 @@ set(gca,'fontsize',30)
 legend('location','southeast');
 grid on;
 filename = sprintf('plots/single_uniX_cos_count_gamma_%0.1f_xi_%0.2f_nrep_%d_n_%d_k_%d.pdf', gamma, xi,num_rep,n, k);
-saveTightFigure(gcf, filename);
+% saveTightFigure(gcf, filename);
 fprintf(['Saved Results to ' filename '\n']);
 close(gcf)
 
@@ -254,7 +254,7 @@ set(gca,'fontsize', 30)
 legend('location','northwest');
 grid on;
 filename = sprintf('plots/single_uniX_lambda_count_gamma_%0.1f_xi_%0.2f_nrep_%d_n_%d_k_%d.pdf', gamma, xi,num_rep,n, k);
-saveTightFigure(gcf, filename);
+% saveTightFigure(gcf, filename);
 fprintf(['Saved Results to ' filename '\n']);
 close(gcf)
 

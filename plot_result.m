@@ -30,7 +30,7 @@ function [] = plot_result(res, theory, d, n, k, gamma, xi, num_rep, outpath, yla
     grid on;
     if savefigs==1
         filename = append(outpath, sprintf('gamma_%0.1f_xi_%0.2f_nrep_%d_n_%d_k_%d.pdf', gamma, xi, num_rep, n, k));
-        saveTightFigure(gcf, filename);
+%         saveTightFigure(gcf, filename);
         fprintf(['Saved Results to ' filename '\n']);
         close(gcf)
     end

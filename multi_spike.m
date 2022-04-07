@@ -82,7 +82,7 @@ title('Gaussian projection', 'fontsize', 35, 'Interpreter', 'LaTex');
 legend('location','southeast');
 grid on;
 filename = sprintf('plots/multi_cos_gaus_gamma_%0.1f_xi_%0.2f_nrep_%d_n_%d_k_%d.pdf', gamma, xi,num_rep,n, k);
-saveTightFigure(gcf, filename);
+% saveTightFigure(gcf, filename);
 fprintf(['Saved Results to ' filename '\n']);
 close(gcf)
 %%% plot lambda
@@ -99,7 +99,7 @@ title('Gaussian projection', 'FontSize', 35, 'Interpreter', 'LaTex');
 legend('location','northwest');
 grid on;
 filename = sprintf('plots/multi_lambda_gaus_gamma_%0.1f_xi_%0.2f_nrep_%d_n_%d_k_%d.pdf', gamma, xi,num_rep,n, k);
-saveTightFigure(gcf, filename);
+% saveTightFigure(gcf, filename);
 fprintf(['Saved Results to ' filename '\n']);
 close(gcf)
 
@@ -140,7 +140,7 @@ title('Count sketch', 'FontSize', 35, 'Interpreter', 'LaTeX')
 legend('location','southeast');
 grid on;
 filename = sprintf('plots/multi_cos_count_gamma_%0.1f_xi_%0.2f_nrep_%d_n_%d_k_%d.pdf', gamma, xi,num_rep,n, k);
-saveTightFigure(gcf, filename);
+% saveTightFigure(gcf, filename);
 fprintf(['Saved Results to ' filename '\n']);
 close(gcf)
 
@@ -156,7 +156,7 @@ title('Count sketch', 'FontSize', 35, 'Interpreter', 'LaTeX')
 legend('location','northwest');
 grid on;
 filename = sprintf('plots/multi_lambda_count_gamma_%0.1f_xi_%0.2f_nrep_%d_n_%d_k_%d.pdf', gamma, xi,num_rep,n, k);
-saveTightFigure(gcf, filename);
+% saveTightFigure(gcf, filename);
 fprintf(['Saved Results to ' filename '\n']);
 close(gcf)
 
