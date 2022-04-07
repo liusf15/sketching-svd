@@ -23,7 +23,6 @@ function [] = plot_result(res, theory, d, n, k, gamma, xi, num_rep, outpath, yla
         fontsize = 30;
     end
     set(gca,'FontSize', fontsize)
-%     title(sprintf('$$n=%d, k=%d, \\gamma=%.2f, \\xi=%0.2f$$', n, k, gamma, xi), 'Interpreter', 'LaTex')
     if exist('name', 'var')
         title(name, 'FontSize', fontsize, 'Interpreter', 'LaTex');
     end

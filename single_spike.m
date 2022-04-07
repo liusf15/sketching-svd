@@ -41,6 +41,9 @@ end
 if ~exist('results/', 'dir')
        mkdir('results/')
 end
+if ~exist('plots/', 'dir')
+       mkdir('plots/')
+end
 for i = 1:8
     filename = sprintf('_n_%d_p_%d_r_%d_k_%d_nrep_%d.csv', n, p, r, k, num_rep);
     csvwrite(strcat('results/uniX_cos_', names(i), filename), squeeze(cos(i, :, :)))
