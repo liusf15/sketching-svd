@@ -1,53 +1,70 @@
-% compare all sketching methods
-n = 4096;
-p = 3200;
-r = 2500;
+% compare SRHT, uniform sampling, CountSketch, Gaussian projection
+% Figure 2
+
+n = 2500;
+p = 800;
+r = 2000;
 gamma = p / n;
 xi = r / n;
-k = 10;
+k = 7;
 rng(1);
-d = sort(rand(1, k) * 20 + 1, 'descend');
+d = linspace(20, 3, k);
 D = diag(d);
 
-num_rep = 5;
-names = ["orthogonal projection", "Gaussian projection", "uniform sampling", "Hadamard", "countSketch", "countSketch-normalized", "leverage", "osnap"];
+num_rep = 20;
+names = ["Hadamard", "uniform sampling", "countSketch", "countSketch-normalized", "Gaussian projection"];
 cos = zeros(length(names), k, num_rep);
 lambda = zeros(length(names), k, num_rep);
 %% simulation
 for j = 1:num_rep
     disp(j);
-    X = randn(n, p) / sqrt(n);
+%     X = randn(n, p) / sqrt(n);
+    X = (rand(n, p) * 2 - 1) * sqrt(3) / sqrt(n);
     W = orth(randn(n, k));
     U = orth(randn(p, k));
-    [cos(1, :, j), lambda(1, :, j)] = sketchingMethods.orth(W, D, U, X, r);
-    [cos(2, :, j), lambda(2, :, j)] = sketchingMethods.gaus(W, D, U, X, r);
-    [cos(3, :, j), lambda(3, :, j)] = sketchingMethods.unif(W, D, U, X, r);
-    [cos(4, :, j), lambda(4, :, j)] = sketchingMethods.hada(W, D, U, X, r);
-    [cos(5, :, j), lambda(5, :, j)] = sketchingMethods.coun(W, D, U, X, r, false);
-    [cos(6, :, j), lambda(6, :, j)] = sketchingMethods.coun(W, D, U, X, r, true);
-    [cos(7, :, j), lambda(7, :, j)] = sketchingMethods.leve(W, D, U, X, r);
-    [cos(8, :, j), lambda(8, :, j)] = sketchingMethods.osna(W, D, U, X, r, 500);
+    signal_mat = W * D * U';
+    Y = signal_mat + X;
+    [cos(1, :, j), lambda(1, :, j)] = sketchingMethods.hada(Y, U, r);
+    [cos(2, :, j), lambda(2, :, j)] = sketchingMethods.unif(Y, U, r);
+    [cos(3, :, j), lambda(3, :, j)] = sketchingMethods.coun(Y, U, r, false);
+    [cos(4, :, j), lambda(4, :, j)] = sketchingMethods.coun(Y, U, r, true);
+    [cos(5, :, j), lambda(5, :, j)] = sketchingMethods.gaus(Y, U, r);
 end
-
-csvwrite("compare_all_cos.csv", cos)
-csvwrite("compare_all_lambda.csv", lambda)
+if ~exist('results/', 'dir')
+       mkdir('results/')
+end
+if ~exist('plots/', 'dir')
+       mkdir('plots/')
+end
+% write results
+for i = 1:5
+    filename = sprintf('_n_%d_p_%d_r_%d_k_%d_nrep_%d.csv', n, p, r, k, num_rep);
+    csvwrite(strcat('results/uniX2_cos_', names(i), filename), squeeze(cos(i, :, :)))
+    csvwrite(strcat('results/uniX2_lambda_', names(i), filename), squeeze(lambda(i, :, :)))
+end
+% read results
+for i = 1:5
+    filename = sprintf('_n_%d_p_%d_r_%d_k_%d_nrep_%d.csv', n, p, r, k, num_rep);
+    cos(i, :, :) = csvread(strcat('results/uniX2_cos_', names(i), filename));
+    lambda(i, :, :) = csvread(strcat('results/uniX2_lambda_', names(i), filename));
+end
 
 %% plot
 % cos
 figure, hold on;
 mark = {':', '-', ':', '-', '--', '-.', '-.', '--', '-.'};
-for i = 1:8
+for i = 1:5
     errorbar(d, mean(cos(i, :, :), 3), std(cos(i, :, :), 0, 3),'lineWidth', 2, 'DisplayName', names(i), 'linestyle', mark{i});
 end
 legend('location','southeast');
 xlabel('$$d_i$$', 'Interpreter', 'LaTex');
 ylabel('$$|\langle u_i,\tilde\xi_i\rangle|^2$$', 'Interpreter', 'LaTeX');
-ylim([0, 1]);
-set(gca,'fontsize',14)
-% title(sprintf('$$n=%d, k=%d, \\gamma=%.2f, \\xi=%0.2f$$', n, k, gamma, xi), 'Interpreter', 'LaTex')
+ylim([0.9, 1]);
+set(gca,'fontsize',25)
 grid on;
-filename = sprintf('cos_all_gamma_%0.1f_xi_%0.2f_nrep_%d_n_%d_k_%d.png', gamma, xi,num_rep,n, k);
-saveas(gcf, filename);
+filename = sprintf('plots/final/cos_all_n_%d_p_%d_r_%d_k_%d_nrep_%d.pdf', n, p, r, k, num_rep);
+saveTightFigure(gcf, filename);
+close(gcf);
 
 % lambda
 figure, hold on;
@@ -59,7 +76,6 @@ legend('location','northwest');
 xlabel('$$d_i^2$$', 'Interpreter', 'LaTex');
 ylabel('$$\tilde\lambda_i$$', 'Interpreter', 'LaTeX');
 set(gca,'fontsize', 14)
-% title(sprintf('$$n=%d, k=%d, \\gamma=%.2f, \\xi=%0.2f$$', n, k, gamma, xi), 'Interpreter', 'LaTex')
 grid on;
 filename = sprintf('lambda_all_gamma_%0.1f_xi_%0.2f_nrep_%d_n_%d_k_%d.png', gamma, xi,num_rep,n, k);
 saveas(gcf, filename);
